@@ -44,7 +44,7 @@ public class Concesionario {
      * @return Devuelve el vehiculo si existe en el concesionario, o null si no 
      * se encuentra en él.
      */
-    public Vehiculo buscarVehiculo(String matricula){ // Nuevo metodo para buscar vehiculos
+    public Vehiculo buscarMatricula(String matricula){ // Nuevo metodo para buscar vehiculos
         
         for (Vehiculo vehiculo : vehiculosAlmacenados){
             if (vehiculo.getMatricula().equals(matricula)) {
@@ -84,9 +84,9 @@ public class Concesionario {
      * @return Devuelve {@code null} si el vehiculo no existe en el concesionario
      * y una {@code String} con los datos del vehículo en caso de que exista.
      */
-    public String buscaVehiculo(String matricula) {
+    public String buscarVehiculo(String matricula) {
         
-        Vehiculo vehiculo = buscarVehiculo(matricula);
+        Vehiculo vehiculo = buscarMatricula(matricula);
         
         if (vehiculo != null) {
             return vehiculo.toString();
@@ -128,7 +128,7 @@ public class Concesionario {
      */
     public int modificarKm(String matricula, double nuevoKm) {
         
-        Vehiculo vehiculo = buscarVehiculo(matricula);
+        Vehiculo vehiculo = buscarMatricula(matricula);
         
         if (vehiculo != null) {
             vehiculo.setKm(nuevoKm);
@@ -146,7 +146,7 @@ public class Concesionario {
      * u otra con el mensaje de eliminado correctamente
      */
     public String eliminarVehiculo(String matricula) {
-        Vehiculo vehiculo = buscarVehiculo(matricula);
+        Vehiculo vehiculo = buscarMatricula(matricula);
         
         if (vehiculo == null) {
             return "Error: El vehiculo con matricula " +matricula +" no existe.";
