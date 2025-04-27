@@ -24,7 +24,7 @@ public class Principal {
 
     /**
      * Metodo main de la clase Principal
-     * @param args 
+     * @param args <i>No utilizado</i>
      */
     public static void main(String[] args) {
 
