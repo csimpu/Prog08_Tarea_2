@@ -13,7 +13,7 @@ package com.damel.modelos;
  *
  * @author Borja Piñero
  */
-public class Vehiculo {
+public class Vehiculo implements Comparable<Vehiculo>{ // Implemento la intefaz
 
     private String matricula,
             marca,
@@ -175,6 +175,16 @@ public class Vehiculo {
                 + "\nDNI: " + dni 
                 + "\nPrecio: " + precio 
                 + "\nKilometros: " + km;
+    }
+    
+    /**
+     * Metodo que com
+     * @param otroVehiculo
+     * @return 
+     */
+    @Override
+    public int compareTo(Vehiculo otroVehiculo){
+        return this.matricula.compareTo(otroVehiculo.matricula);
     }
 
 }
