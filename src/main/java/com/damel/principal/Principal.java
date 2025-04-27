@@ -162,17 +162,14 @@ public class Principal {
                     Vehiculo nuevoVehiculo = new Vehiculo(matricula, marca, 
                             descripcion, nombrePropietario, dni, precio, km);
                     
-                    int vehiculoInsertado = concesionario.insertarVehiculo(nuevoVehiculo);
+                    boolean vehiculoInsertado = concesionario.insertarVehiculo(nuevoVehiculo);
                     
-                    if (vehiculoInsertado == -1)
-                        System.err.println("Error -1: El concesionario está lleno");
-                    
-                    if (vehiculoInsertado == -2)
+                    if (vehiculoInsertado == false)
                         System.err.println("""
                                            Error -2: La matricula ya esta en
                                            el concesionario""");
                     
-                    if (vehiculoInsertado == 0)
+                    if (vehiculoInsertado == true)
                         System.out.println("Vehiculo anadido");
                     
                                         
@@ -202,7 +199,7 @@ public class Principal {
                     
                     buscaMatricula = entrada.nextLine();
                     
-                    vehiculoEncontrado = concesionario.buscaVehiculo(buscaMatricula);
+                    vehiculoEncontrado = concesionario.buscarVehiculo(buscaMatricula);
                                        
                     if (vehiculoEncontrado == null)                        
                         System.out.println("No existe el vehiculo con matricula "
