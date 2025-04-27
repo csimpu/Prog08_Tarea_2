@@ -31,7 +31,6 @@ public class Concesionario {
      * Metodo que devuelve el número de vehiculos que hay en el concesonario,
      * mediante el metodo size().
      * @return Devuelve el numero de vehiculos que contiene el concesionario
-     * @see {@link java.util.TreeSet#size()}
      */
     public int getNumVehiculos() {
         return vehiculosAlmacenados.size();
