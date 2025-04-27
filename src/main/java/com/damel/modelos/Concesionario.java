@@ -5,6 +5,7 @@
 package com.damel.modelos;
 
 import com.damel.validaciones.Validaciones;
+import java.util.TreeSet;
 
 /**
  * Clase Concesionario<br>
@@ -15,68 +16,65 @@ import com.damel.validaciones.Validaciones;
  * @author Borja Piñero
  */
 public class Concesionario {
-
-    private Vehiculo[] vehiculosAlmacenados;
-    private int numVehiculo;
+    
+    // Uso un TreeSet para ordenar los vehículos por matricula
+    private TreeSet<Vehiculo> vehiculosAlmacenados;
 
     /**
-     * Crea el concesionario, un array que contendrá los vehiculos
+     * Crea el concesionario, un TreeSet que contendrá los vehiculos
      */
     public Concesionario() {
-        this.vehiculosAlmacenados = new Vehiculo[50];
-        this.numVehiculo = 0;
-
+        this.vehiculosAlmacenados = new TreeSet<>();
     }
     
     /**
-     * Metodo que devuelve el numero de vehiculos que hay en el concesonario
+     * Metodo que devuelve el número de vehiculos que hay en el concesonario,
+     * mediante el metodo size().
      * @return Devuelve el numero de vehiculos que contiene el concesionario
+     * @see {@link java.util.TreeSet#size()}
      */
     public int getNumVehiculos() {
-        return numVehiculo;
+        return vehiculosAlmacenados.size();
     }
     
     /**
-     * Metodo que devuelve la posicion de un vehiculo en el array del concesionario
+     * Metodo que busca un vehículo en el concesionario por matrícula.
      * 
-     * @param matricula La matricula de la que deseamos conocer la posición en el 
-     * array
-     * @return Devuelve la posicion del vehiculo en el concesionario, o -1 si no 
+     * @param matricula La matricula que se busca
+     * @return Devuelve el vehiculo si existe en el concesionario, o null si no 
      * se encuentra en él.
      */
-    public int obtenerPosicionVehiculo(String matricula){
+    public Vehiculo buscarVehiculo(String matricula){ // Nuevo metodo para buscar vehiculos
         
-        for (int i = 0; i < numVehiculo; i++){
-            if (vehiculosAlmacenados[i].getMatricula().equals(matricula)) {
-                return i;
+        for (Vehiculo vehiculo : vehiculosAlmacenados){
+            if (vehiculo.getMatricula().equals(matricula)) {
+                return vehiculo;
             }
         }
-        return -1;
+        return null;
     }
     
     /**
-     * Metodo que inserta un vehiculo en el concesionario, siempre que el 
-     * concesionario no este lleno ni la matricula ya exista en el concesionario - 
+     * Metodo que inserta un vehiculo en el concesionario, siempre que
+     * la matricula no exista en el concesionario - 
      * {@link Validaciones#matriculaEsUnica(com.damel.modelos.Vehiculo, com.damel.modelos.Concesionario) }
      * 
      * @param nuevoVehiculo Los datos del vehiculo
-     * @return devuelve {@code -1} si el concesionario esta lleno<br>
-     * devuelve {@code  -2} si la matricula ya existe en el concesionario<br>
-     * devuelve {@code 0} si el vehiculo se añade corretamente
+     * @return devuelve {@code  false} si la matricula ya existe en el concesionario<br>
+     * devuelve {@code true} si el vehiculo se añade corretamente
      */
-    public int insertarVehiculo(Vehiculo nuevoVehiculo) {
+    public boolean insertarVehiculo(Vehiculo nuevoVehiculo) { // Ahora este metodo es boolean
         
-        if (numVehiculo >= vehiculosAlmacenados.length) {
-            return -1;
-        }
+        // La primera condición ya no es necesaria, porque no hay exceso de vehiculos
         
         if (!Validaciones.matriculaEsUnica(nuevoVehiculo, this)) {
-            return -2;
+            return false;
         }
         
-        vehiculosAlmacenados[numVehiculo] = nuevoVehiculo;
-        numVehiculo++;
-        return 0;
+        // La ultima tampoco, ya que no tengo que aumentar el contador
+        
+        // Devuelvo directamente si se añade el vehiculo 
+        return vehiculosAlmacenados.add(nuevoVehiculo);
     }
 
     /**
@@ -88,10 +86,10 @@ public class Concesionario {
      */
     public String buscaVehiculo(String matricula) {
         
-        int posicion = obtenerPosicionVehiculo(matricula);
+        Vehiculo vehiculo = buscarVehiculo(matricula);
         
-        if (posicion != -1) {
-            return vehiculosAlmacenados[posicion].toString();
+        if (vehiculo != null) {
+            return vehiculo.toString();
         }
         return null;
     }
@@ -106,12 +104,14 @@ public class Concesionario {
         StringBuilder lista = new StringBuilder();
 
         lista.append("Vehiculos en el concesionario:\n");
+        
+        int i = 1;
 
-        for (int k = 0; k < numVehiculo; k++) {
+        for (Vehiculo vehiculo : vehiculosAlmacenados) {
             lista.append("Vehiculo ")
-                    .append(k + 1)
+                    .append(i++)
                     .append("\n")
-                    .append(vehiculosAlmacenados[k].toString())
+                    .append(vehiculo.toString())
                     .append("\n          ***\n");
         }
 
@@ -128,10 +128,10 @@ public class Concesionario {
      */
     public int modificarKm(String matricula, double nuevoKm) {
         
-        int posicion = obtenerPosicionVehiculo(matricula);
+        Vehiculo vehiculo = buscarVehiculo(matricula);
         
-        if (posicion !=-1) {
-            vehiculosAlmacenados[posicion].setKm(nuevoKm);
+        if (vehiculo != null) {
+            vehiculo.setKm(nuevoKm);
             return 0;
         }
         return -1;
@@ -146,18 +146,13 @@ public class Concesionario {
      * u otra con el mensaje de eliminado correctamente
      */
     public String eliminarVehiculo(String matricula) {
-        int posicion = obtenerPosicionVehiculo(matricula);
+        Vehiculo vehiculo = buscarVehiculo(matricula);
         
-        if (posicion == -1) {
+        if (vehiculo == null) {
             return "Error: El vehiculo con matricula " +matricula +" no existe.";
         }
         
-        for (int i = posicion; i < numVehiculo - 1; i++) {
-            vehiculosAlmacenados[i] = vehiculosAlmacenados[i+1];
-        }
-        
-        vehiculosAlmacenados[numVehiculo - 1] = null;
-        numVehiculo--;
+        vehiculosAlmacenados.remove(vehiculo);
         
         return "El vehiculo con matricula " +matricula +" se ha eliminado correctamente";
         
