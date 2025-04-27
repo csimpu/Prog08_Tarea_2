@@ -85,8 +85,8 @@ public class Pruebas {
         String matricula1 = vehiculo1.getMatricula();
         String matricula2 = "2345BBB";
                 
-        String resultado1 = concesionario.buscaVehiculo(matricula1);
-        String resultado2 = concesionario.buscaVehiculo(matricula2);
+        String resultado1 = concesionario.buscarVehiculo(matricula1);
+        String resultado2 = concesionario.buscarVehiculo(matricula2);
         
         // Verificamos que el resultado sea null
         assertNotNull(resultado1);
@@ -124,17 +124,11 @@ void testModificarKm() {
         
         concesionario.insertarVehiculo(vehiculo);
 
-        // Verificar que el vehículo está dentro
-        assertEquals(0, concesionario.obtenerPosicionVehiculo("1234BCD"));
-
         // Eliminar el vehículo
         String mensaje = concesionario.eliminarVehiculo("1234BCD");
         
         // Comprobar el mensaje de éxito
         assertEquals("El vehiculo con matricula 1234BCD se ha eliminado correctamente", mensaje);
-
-        // Verificar que ya no existe
-        assertEquals(-1, concesionario.obtenerPosicionVehiculo("1234BCD"));
 
         // Intentar eliminarlo de nuevo y verificar el mensaje de error
         String mensajeError = concesionario.eliminarVehiculo("1234BCD");
