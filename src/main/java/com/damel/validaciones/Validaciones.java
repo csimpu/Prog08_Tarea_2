@@ -29,7 +29,7 @@ public class Validaciones {
      * @return Devuelve {@code true} si la matricula no esta en el concesionario
      */
     public static boolean matriculaEsUnica (Vehiculo nuevoVehiculo, Concesionario concesionario) {
-        return concesionario.obtenerPosicionVehiculo(nuevoVehiculo.getMatricula()) == -1;
+        return concesionario.buscarMatricula(nuevoVehiculo.getMatricula()) == null;
     }
 
     /**
